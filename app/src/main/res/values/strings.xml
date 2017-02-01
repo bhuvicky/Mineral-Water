@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Mineral Water</string>
+    <string name="content_desc_date">Current Date Mark</string>
 </resources>
