@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_dayview"
+        android:title="@string/menu_dayview"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_monthview"
+        android:title="@string/menu_monthview"
+        app:showAsAction="never"/>
+
+</menu>

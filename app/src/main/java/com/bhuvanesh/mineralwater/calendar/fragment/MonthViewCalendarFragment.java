@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -75,8 +77,16 @@ public class MonthViewCalendarFragment extends BaseFragment {
 
             }
         });
+
         refreshCalendar();
+        setHasOptionsMenu(true);
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.findItem(R.id.menu_monthview).setVisible(false);
+        inflater.inflate(R.menu.menu_calendar, menu);
     }
 
     private void setPreviousMonth() {

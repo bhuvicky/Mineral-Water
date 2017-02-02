@@ -1,4 +1,15 @@
 <resources>
     <string name="app_name">Mineral Water</string>
     <string name="content_desc_date">Current Date Mark</string>
+
+    <!--Calendar Strings-->
+    <string name="menu_dayview">Day View</string>
+    <string name="menu_monthview">Month View</string>
+
+    <!--Profile Strings-->
+    <string name="hint_first_name">First Name</string>
+    <string name="hint_last_name">Last Name</string>
+    <string name="hint_mobile_no">Mobile No</string>
+    <string name="hint_price_per_can">Price Per Can</string>
+    <string name="menu_save">Save</string>
 </resources>
