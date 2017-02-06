@@ -11,7 +11,9 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,7 +30,7 @@ import com.bhuvanesh.mineralwater.widget.CircularNetworkImageView;
 ;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class EditProfileFragment extends RunTimePermissionFragment {
+public class EditProfileFragment extends RunTimePermissionFragment implements TextWatcher  {
 
     public static final int READ_EXTERNAL_STOREAGE_PERMISSION_CODE = 1;
     public static final int PICK_GALLERY_IMAGE_REQUEST_CODE = 100;
@@ -53,15 +55,19 @@ public class EditProfileFragment extends RunTimePermissionFragment {
         setHasOptionsMenu(true);
 
         mEditTextFirstName = (EditText) view.findViewById(R.id.edittext_first_name);
+        mEditTextFirstName.addTextChangedListener(this);
         mTextInputFirstName = (TextInputLayout) view.findViewById(R.id.textinput_first_name);
 
         mEditTextLastName = (EditText) view.findViewById(R.id.edittext_last_name);
+        mEditTextLastName.addTextChangedListener(this);
         mTextInputLastName = (TextInputLayout) view.findViewById(R.id.textinput_last_name);
 
         mEditTextMobileNo = (EditText) view.findViewById(R.id.edittext_mobile_noe);
+        mEditTextMobileNo.addTextChangedListener(this);
         mTextInputMobileNo = (TextInputLayout) view.findViewById(R.id.textinput_mobile_no);
 
         mEditTextPrice = (EditText) view.findViewById(R.id.edittext_price_per_can);
+        mEditTextPrice.addTextChangedListener(this);
         mTextInputPrice = (TextInputLayout) view.findViewById(R.id.textinput_price_per_can);
 
         mImageViewProfile.setOnClickListener(new View.OnClickListener() {
@@ -138,16 +144,16 @@ public class EditProfileFragment extends RunTimePermissionFragment {
     private boolean isValid() {
         boolean isValid = true;
         if (TextUtils.isEmpty(mEditTextFirstName.getText().toString())) {
-            mTextInputFirstName.setError(getString(R.string.msg_error_required));
+//            mTextInputFirstName.setError(getString(R.string.msg_error_required));
             isValid = false;
         } else if (TextUtils.isEmpty(mEditTextLastName.getText().toString())) {
-            mTextInputLastName.setError(getString(R.string.msg_error_required));
+//            mTextInputLastName.setError(getString(R.string.msg_error_required));
             isValid = false;
         } else if (TextUtils.isEmpty(mEditTextMobileNo.getText().toString())) {
-            mTextInputMobileNo.setError(getString(R.string.msg_error_required));
+//            mTextInputMobileNo.setError(getString(R.string.m));
             isValid = false;
         } else if (TextUtils.isEmpty(mEditTextPrice.getText().toString())) {
-            mTextInputPrice.setError(getString(R.string.msg_error_required));
+//            mTextInputPrice.setError(getString(R.string.msg_error_required));
             isValid = false;
         }
         return isValid;
@@ -157,5 +163,23 @@ public class EditProfileFragment extends RunTimePermissionFragment {
     protected void onPermissionsGranted(int requestCode) {
         if (requestCode == PICK_GALLERY_IMAGE_REQUEST_CODE)
             loadImageFromGallery();
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        mTextInputFirstName.setErrorEnabled(false);
+        mTextInputLastName.setErrorEnabled(false);
+        mTextInputMobileNo.setErrorEnabled(false);
+        mTextInputPrice.setErrorEnabled(false);
     }
 }
