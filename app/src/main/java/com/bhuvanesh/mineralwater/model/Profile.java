@@ -6,12 +6,12 @@ package com.bhuvanesh.mineralwater.model;
 
 public class Profile {
 
-    public long profileId;
+    public long id;
     public String profilePicUri;
     public String firstName;
     public String lastName;
     public String mobileNo;
     public long profileCreatedTime;
 
-    public double pricePerCan;
+    public float pricePerCan;
 }

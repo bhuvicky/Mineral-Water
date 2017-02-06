@@ -2,6 +2,9 @@
     <string name="app_name">Mineral Water</string>
     <string name="content_desc_date">Current Date Mark</string>
 
+    <!--General Strings-->
+    <string name="msg_error_required">Required</string>
+
     <!--Calendar Strings-->
     <string name="menu_dayview">Day View</string>
     <string name="menu_monthview">Month View</string>
