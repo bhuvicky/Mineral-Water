@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.bhuvanesh.mineralwater.BaseActivity;
 import com.bhuvanesh.mineralwater.R;
 import com.bhuvanesh.mineralwater.calendar.fragment.MonthViewCalendarFragment;
+import com.bhuvanesh.mineralwater.profile.fragment.CustomerListFragment;
 
 public class MainActivity extends BaseActivity {
 
@@ -12,7 +13,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        replace(R.id.rlayout_container, MonthViewCalendarFragment.newInstance());
+        replace(R.id.rlayout_container, CustomerListFragment.newInstance());
     }
 
 }

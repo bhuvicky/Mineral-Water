@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by bhuvanesh on 01-02-2017.
  */
 
-public class DBManager {
+public class DBManager implements DBQuery {
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "Mineral Water";
@@ -18,6 +18,7 @@ public class DBManager {
     private SLDBHelper mSLDBHelper;
 
     public DBManager(Context context) {
+        System.out.println("db manager cons");
         mSLDBHelper = SLDBHelper.getHelper(context);
     }
 
@@ -69,7 +70,7 @@ public class DBManager {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-
+            db.execSQL(CREATE_TABLE_PROFILE);
         }
 
         @Override

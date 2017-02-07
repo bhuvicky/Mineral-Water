@@ -66,9 +66,9 @@ public abstract class Dao {
                 public void run() {
                     switch (type) {
                         case INSERTION:  insert(model);  break;
-                        case UPDATION:   insert(model);  break;
-                        case DELETION:   insert(model);  break;
-                        case QUERY:      insert(model);  break;
+                        case UPDATION:   update(model);  break;
+                        case DELETION:   delete(model);  break;
+                        case QUERY:      query(model);  break;
                     }
                 }
             });

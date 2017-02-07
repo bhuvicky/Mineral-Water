@@ -5,4 +5,10 @@ package com.bhuvanesh.mineralwater.database;
  */
 
 public interface DBQuery {
+
+    String TABLE_NAME_PROFILE = "Customer_Profile";
+
+    String CREATE_TABLE_PROFILE = "CREATE TABLE " + TABLE_NAME_PROFILE + "(_id long PRIMARY KEY, ProfilePicURI varchar, " +
+            "FirstName varchar, LastName varchar, MobileNo varchar, PricePerCan varchar, ProfileCreatedTime varchar);";
+
 }

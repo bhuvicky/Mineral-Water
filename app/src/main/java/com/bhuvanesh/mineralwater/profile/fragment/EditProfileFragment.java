@@ -24,6 +24,7 @@ import android.widget.EditText;
 
 import com.bhuvanesh.mineralwater.R;
 import com.bhuvanesh.mineralwater.RunTimePermissionFragment;
+import com.bhuvanesh.mineralwater.database.MWDBManager;
 import com.bhuvanesh.mineralwater.model.Profile;
 import com.bhuvanesh.mineralwater.util.DataUtil;
 import com.bhuvanesh.mineralwater.widget.CircularNetworkImageView;
@@ -70,6 +71,7 @@ public class EditProfileFragment extends RunTimePermissionFragment implements Te
         mEditTextPrice.addTextChangedListener(this);
         mTextInputPrice = (TextInputLayout) view.findViewById(R.id.textinput_price_per_can);
 
+        mImageViewProfile = (CircularNetworkImageView) view.findViewById(R.id.imageview_profile_icon);
         mImageViewProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             @TargetApi(16)
@@ -91,6 +93,7 @@ public class EditProfileFragment extends RunTimePermissionFragment implements Te
         mEditTextLastName.setText(mProfile.lastName != null ? mProfile.lastName : "");
         mEditTextMobileNo.setText(mProfile.mobileNo != null ? mProfile.mobileNo : "");
         mEditTextPrice.setText(mProfile.pricePerCan != 0f ? String.valueOf(mProfile.pricePerCan) : "0");
+        mImageViewProfile.setImageBitmap(BitmapFactory.decodeFile(mImagePath));
     }
 
     private void saveIntoDB() {
@@ -98,11 +101,16 @@ public class EditProfileFragment extends RunTimePermissionFragment implements Te
             // only unique within a process
             AtomicLong atomicLong = new AtomicLong();
             mProfile.id = atomicLong.incrementAndGet();
+            System.out.println("profile id after gen = " + mProfile.id);
         }
         mProfile.firstName = mEditTextFirstName.getText().toString();
         mProfile.lastName = mEditTextLastName.getText().toString();
         mProfile.mobileNo = mEditTextMobileNo.getText().toString();
         mProfile.pricePerCan = DataUtil.getFloat(mEditTextPrice.getText().toString());
+        mProfile.profilePicUri = mImagePath;
+        mProfile.profileCreatedTime = mProfile.profileCreatedTime == 0 ? System.currentTimeMillis() : mProfile.profileCreatedTime;
+
+        new MWDBManager().updateProfile(mProfile);
     }
 
     @Override
