@@ -12,6 +12,7 @@ import java.util.Locale;
 public final class DateUtil {
 
     public static final String DATE_TIME_FORMAT_TYPE_dd = "dd";
+    public static final String DATE_TIME_FORMAT_TYPE_dd_MM_yyyy = "dd/MM/yyyy";
 
     public static String getFormattedString(long timeStamp, String pattern) {
         DateFormat dateFormat = new SimpleDateFormat(pattern, Locale.getDefault());

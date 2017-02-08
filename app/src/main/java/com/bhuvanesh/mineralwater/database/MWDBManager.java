@@ -22,7 +22,6 @@ public class MWDBManager {
     }
 
     public void updateProfile(Profile profile) {
-        System.out.println("inside update profile");
         Dao dao = new ProfileDao();
         dao.setOnDaoOperationListener(new Dao.OnDaoOperationListener() {
             @Override
@@ -38,5 +37,21 @@ public class MWDBManager {
         CUDModel model = new CUDModel();
         model.object = profile;
         dao.execute(Dao.CUDOperationType.UPDATION, model);
+    }
+
+    public void getCustomerProfileList() {
+        Dao dao = new ProfileDao();
+        dao.setOnDaoOperationListener(new Dao.OnDaoOperationListener() {
+            @Override
+            public void onDaoOperationSuccess(Object obj) {
+                mOnMWDBManagerListener.onDBManagerSuccess(obj);
+            }
+
+            @Override
+            public void onDaoOperationError(MWException exception) {
+                mOnMWDBManagerListener.onDBManagerError(exception);
+            }
+        });
+        dao.execute(Dao.CUDOperationType.QUERY, new CUDModel());
     }
 }

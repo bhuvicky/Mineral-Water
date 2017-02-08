@@ -2,8 +2,10 @@ package com.bhuvanesh.mineralwater.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.ParcelUuid;
 
 /**
  * Created by bhuvanesh on 01-02-2017.
@@ -18,7 +20,6 @@ public class DBManager implements DBQuery {
     private SLDBHelper mSLDBHelper;
 
     public DBManager(Context context) {
-        System.out.println("db manager cons");
         mSLDBHelper = SLDBHelper.getHelper(context);
     }
 
@@ -53,6 +54,9 @@ public class DBManager implements DBQuery {
         return rowId;
     }
 
+    public Cursor select(String query, String[] selectionArgs) {
+        return getDBInstance().rawQuery(query, selectionArgs);
+    }
 
     private static class SLDBHelper extends SQLiteOpenHelper {
 
