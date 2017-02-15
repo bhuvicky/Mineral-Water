@@ -24,7 +24,16 @@ import java.util.List;
 
 public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapter.ViewHolder> {
 
+    public interface OnCustomerItemClickListener {
+        void onProfileClick(Profile profile);
+    }
+
     private List<Profile> mProfileList = new ArrayList<>();
+    private OnCustomerItemClickListener mOnCustomerItemClickListener;
+
+    public void setOnCustomerItemClickListener(OnCustomerItemClickListener listener) {
+        mOnCustomerItemClickListener = listener;
+    }
 
     public void setData(List<Profile> profile) {
         mProfileList = profile;
@@ -57,7 +66,7 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
         return mProfileList != null ? mProfileList.size() : 0;
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         private CircularNetworkImageView imageViewProfileIcon;
         private TextView textViewName, textViewMobileNo, textViewTimeStamp;
@@ -69,6 +78,12 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
             textViewName = (TextView) itemView.findViewById(R.id.textview_name);
             textViewMobileNo = (TextView) itemView.findViewById(R.id.textview_mobile_no);
             textViewTimeStamp = (TextView) itemView.findViewById(R.id.textview_timestamp);
+            imageViewProfileIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnCustomerItemClickListener.onProfileClick(mProfileList.get(getAdapterPosition()));
+                }
+            });
         }
     }
 }

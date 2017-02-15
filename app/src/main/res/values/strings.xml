@@ -5,14 +5,18 @@
     <!--General Strings-->
     <string name="msg_error_required">Required</string>
 
+    <!--Menu Strings-->
+    <string name="menu_save">Save</string>
+    <string name="menu_edit">Edit</string>
+
     <!--Calendar Strings-->
     <string name="menu_dayview">Day View</string>
     <string name="menu_monthview">Month View</string>
 
     <!--Profile Strings-->
+    <string name="title_edit_profile">Edit Profile</string>
     <string name="hint_first_name">First Name</string>
     <string name="hint_last_name">Last Name</string>
     <string name="hint_mobile_no">Mobile No</string>
     <string name="hint_price_per_can">Price Per Can</string>
-    <string name="menu_save">Save</string>
 </resources>

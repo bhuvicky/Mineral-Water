@@ -9,6 +9,18 @@ import android.support.v4.app.Fragment;
 public class BaseFragment extends Fragment {
 
     protected void replace(int containerId, BaseFragment fragment) {
-        ((BaseActivity)getActivity()).replace(containerId, fragment);
+        ((BaseActivity) getActivity()).replace(containerId, fragment);
+    }
+
+    protected void pop() {
+        getActivity().getSupportFragmentManager().popBackStack();
+    }
+
+    protected void setTitle(String title) {
+        getActivity().setTitle(title);
+    }
+
+    protected void setTitle(int resId) {
+        getActivity().setTitle(resId);
     }
 }

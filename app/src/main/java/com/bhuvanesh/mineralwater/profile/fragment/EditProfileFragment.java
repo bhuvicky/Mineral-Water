@@ -27,9 +27,9 @@ import com.bhuvanesh.mineralwater.RunTimePermissionFragment;
 import com.bhuvanesh.mineralwater.database.MWDBManager;
 import com.bhuvanesh.mineralwater.model.Profile;
 import com.bhuvanesh.mineralwater.util.DataUtil;
+import com.bhuvanesh.mineralwater.util.MWPreference;
 import com.bhuvanesh.mineralwater.widget.CircularNetworkImageView;
 ;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class EditProfileFragment extends RunTimePermissionFragment implements TextWatcher  {
 
@@ -43,6 +43,10 @@ public class EditProfileFragment extends RunTimePermissionFragment implements Te
     private CircularNetworkImageView mImageViewProfile;
     private String mImagePath;
 
+    public static EditProfileFragment newInstance() {
+        return newInstance(null);
+    }
+
     public static EditProfileFragment newInstance(Profile profile) {
         EditProfileFragment fragment = new EditProfileFragment();
         fragment.mProfile = profile != null ? profile : new Profile();
@@ -54,6 +58,7 @@ public class EditProfileFragment extends RunTimePermissionFragment implements Te
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
         setHasOptionsMenu(true);
+        setTitle(R.string.title_edit_profile);
 
         mEditTextFirstName = (EditText) view.findViewById(R.id.edittext_first_name);
         mEditTextFirstName.addTextChangedListener(this);
@@ -93,14 +98,17 @@ public class EditProfileFragment extends RunTimePermissionFragment implements Te
         mEditTextLastName.setText(mProfile.lastName != null ? mProfile.lastName : "");
         mEditTextMobileNo.setText(mProfile.mobileNo != null ? mProfile.mobileNo : "");
         mEditTextPrice.setText(mProfile.pricePerCan != 0f ? String.valueOf(mProfile.pricePerCan) : "0");
-        mImageViewProfile.setImageBitmap(BitmapFactory.decodeFile(mImagePath));
+        mImageViewProfile.setImageBitmap(BitmapFactory.decodeFile(mProfile.profilePicUri != null ? mProfile.profilePicUri : null));
     }
 
     private void saveIntoDB() {
         if (mProfile.id == 0) {
             // only unique within a process
-            AtomicLong atomicLong = new AtomicLong();
-            mProfile.id = atomicLong.incrementAndGet();
+            /*AtomicLong atomicLong = new AtomicLong();
+            mProfile.id = atomicLong.incrementAndGet();*/
+            long profileId = MWPreference.getInstance().getProfileId();
+            mProfile.id = ++profileId;
+            MWPreference.getInstance().setProfileId(mProfile.id);
             System.out.println("profile id after gen = " + mProfile.id);
         }
         mProfile.firstName = mEditTextFirstName.getText().toString();
@@ -115,14 +123,18 @@ public class EditProfileFragment extends RunTimePermissionFragment implements Te
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_save, menu);
+        menu.clear();
+        inflater.inflate(R.menu.menu_general, menu);
+        menu.findItem(R.id.menu_save).setVisible(true);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_save) {
-            if (isValid())
+            if (isValid()) {
                 saveIntoDB();
+                pop();
+            }
             return true;
         }
         return false;

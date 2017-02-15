@@ -5,4 +5,6 @@ package com.bhuvanesh.mineralwater;
  */
 
 public class Config {
+
+    public static final boolean DEBUG = true;
 }

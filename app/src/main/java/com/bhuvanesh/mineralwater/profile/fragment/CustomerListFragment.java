@@ -39,7 +39,7 @@ public class CustomerListFragment extends BaseFragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                replace(R.id.rlayout_container, EditProfileFragment.newInstance(null));
+                replace(R.id.rlayout_container, EditProfileFragment.newInstance());
             }
         });
 
@@ -49,6 +49,13 @@ public class CustomerListFragment extends BaseFragment {
         if (mCustomerListAdapter == null)
             mCustomerListAdapter = new CustomerListAdapter();
         recyclerViewCustomerList.setAdapter(mCustomerListAdapter);
+
+        mCustomerListAdapter.setOnCustomerItemClickListener(new CustomerListAdapter.OnCustomerItemClickListener() {
+            @Override
+            public void onProfileClick(Profile profile) {
+                replace(R.id.rlayout_container, ProfileViewFragment.newInstance(profile));
+            }
+        });
 
         MWDBManager manager = new MWDBManager();
         manager.setOnMWDBManagerListener(new MWDBManager.OnMWDBManagerListener() {

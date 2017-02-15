@@ -3,6 +3,7 @@ package com.bhuvanesh.mineralwater.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.ParcelUuid;
@@ -38,6 +39,10 @@ public class DBManager implements DBQuery {
         if (mSQLiteDatabase == null)
             mSQLiteDatabase = mSLDBHelper.getWritableDatabase();
         return mSQLiteDatabase;
+    }
+
+    public void printCursor(Cursor cursor) {
+        DatabaseUtils.dumpCursor(cursor);
     }
 
     public long replace(String tableName, ContentValues values) {
