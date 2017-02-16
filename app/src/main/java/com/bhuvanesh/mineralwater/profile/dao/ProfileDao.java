@@ -10,6 +10,7 @@ import com.bhuvanesh.mineralwater.database.DBManager;
 import com.bhuvanesh.mineralwater.database.DBQuery;
 import com.bhuvanesh.mineralwater.database.Dao;
 import com.bhuvanesh.mineralwater.model.Profile;
+import com.bhuvanesh.mineralwater.util.LoggerUtil;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;
@@ -47,7 +48,10 @@ public class ProfileDao extends Dao {
         values.put(PROFILE_CREATED_TIME, profile.profileCreatedTime);
 
         long rowId = new DBManager(MWApplicaiton.getInstance()).replace(DBQuery.TABLE_NAME_PROFILE, values);
-        System.out.println("after insert row id = " + rowId);
+        System.out.println("log after insert row id = " + rowId);
+
+        long count = new DBManager(MWApplicaiton.getInstance()).getTableRowCount(DBQuery.TABLE_NAME_PROFILE);
+        System.out.println("log table row count = " + count);
 
         Message msg = new Message();
         if (rowId > 0) {
@@ -66,14 +70,14 @@ public class ProfileDao extends Dao {
 
     @Override
     protected void query(CUDModel model) {
-        List<Profile> profileList = null;
+        List<Profile> profileList = new ArrayList<>();;
         Cursor cursor = new DBManager(MWApplicaiton.getInstance()).select(DBQuery.GET_CUSTOMER_PROFILE, null);
+        new DBManager(MWApplicaiton.getInstance()).printCursor(cursor);
 
         try {
             while (cursor.moveToNext()) {
-                profileList = new ArrayList<>();
                 Profile profile = new Profile();
-                profile.id = cursor.getLong(cursor.getColumnIndex(ID));
+                profile.id = cursor.getString(cursor.getColumnIndex(ID));
                 profile.profilePicUri = cursor.getString(cursor.getColumnIndex(PROFILE_PIC_URI));
                 profile.firstName = cursor.getString(cursor.getColumnIndex(FIRST_NAME));
                 profile.lastName = cursor.getString(cursor.getColumnIndex(LAST_NAME));
@@ -88,7 +92,7 @@ public class ProfileDao extends Dao {
         }
 
         Message msg = new Message();
-        if (profileList != null) {
+        if (profileList.size() > 0) {
             msg.what = HANDLER_SUCCESS_MESSAGE;
             msg.obj = profileList;
         } else {

@@ -41,6 +41,10 @@ public class DBManager implements DBQuery {
         return mSQLiteDatabase;
     }
 
+    public long getTableRowCount(String tableName) {
+        return DatabaseUtils.queryNumEntries(getDBInstance(), tableName);
+    }
+
     public void printCursor(Cursor cursor) {
         DatabaseUtils.dumpCursor(cursor);
     }

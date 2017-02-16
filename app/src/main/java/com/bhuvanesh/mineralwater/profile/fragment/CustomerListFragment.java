@@ -16,6 +16,7 @@ import com.bhuvanesh.mineralwater.exception.MWException;
 import com.bhuvanesh.mineralwater.model.Profile;
 import com.bhuvanesh.mineralwater.profile.adapter.CustomerListAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +26,7 @@ import java.util.List;
 public class CustomerListFragment extends BaseFragment {
 
     private CustomerListAdapter mCustomerListAdapter;
+    private List<Profile> mProfile = new ArrayList<>();
 
     public static CustomerListFragment newInstance() {
         return new CustomerListFragment();
@@ -34,6 +36,7 @@ public class CustomerListFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_customer_list, container, false);
+        setTitle(R.string.title_my_customers);
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab_new_profile);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -58,10 +61,12 @@ public class CustomerListFragment extends BaseFragment {
         });
 
         MWDBManager manager = new MWDBManager();
-        manager.setOnMWDBManagerListener(new MWDBManager.OnMWDBManagerListener() {
+        manager.setOnMWDBManagerListener(new MWDBManager.OnMWDBManagerListener<List<Profile>>() {
             @Override
-            public void onDBManagerSuccess(Object obj) {
-                mCustomerListAdapter.setData((List<Profile>) obj);
+            public void onDBManagerSuccess(List<Profile> obj) {
+                mProfile.clear();
+                mProfile.addAll(obj);
+                mCustomerListAdapter.setData(mProfile);
             }
 
             @Override

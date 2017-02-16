@@ -29,7 +29,7 @@ import com.bhuvanesh.mineralwater.model.Profile;
 import com.bhuvanesh.mineralwater.util.DataUtil;
 import com.bhuvanesh.mineralwater.util.MWPreference;
 import com.bhuvanesh.mineralwater.widget.CircularNetworkImageView;
-;
+;import java.util.UUID;
 
 public class EditProfileFragment extends RunTimePermissionFragment implements TextWatcher  {
 
@@ -102,20 +102,22 @@ public class EditProfileFragment extends RunTimePermissionFragment implements Te
     }
 
     private void saveIntoDB() {
-        if (mProfile.id == 0) {
+        if (mProfile.id == null) {
             // only unique within a process
             /*AtomicLong atomicLong = new AtomicLong();
             mProfile.id = atomicLong.incrementAndGet();*/
-            long profileId = MWPreference.getInstance().getProfileId();
+
+            /*long profileId = MWPreference.getInstance().getProfileId();
             mProfile.id = ++profileId;
-            MWPreference.getInstance().setProfileId(mProfile.id);
-            System.out.println("profile id after gen = " + mProfile.id);
+            MWPreference.getInstance().setProfileId(mProfile.id);*/
+            mProfile.id = UUID.randomUUID().toString();
+            System.out.println("log profile id after gen = " + mProfile.id);
         }
         mProfile.firstName = mEditTextFirstName.getText().toString();
         mProfile.lastName = mEditTextLastName.getText().toString();
         mProfile.mobileNo = mEditTextMobileNo.getText().toString();
         mProfile.pricePerCan = DataUtil.getFloat(mEditTextPrice.getText().toString());
-        mProfile.profilePicUri = mImagePath;
+        mProfile.profilePicUri = mImagePath == null ? mProfile.profilePicUri : mImagePath;
         mProfile.profileCreatedTime = mProfile.profileCreatedTime == 0 ? System.currentTimeMillis() : mProfile.profileCreatedTime;
 
         new MWDBManager().updateProfile(mProfile);

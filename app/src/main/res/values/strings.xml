@@ -19,4 +19,5 @@
     <string name="hint_last_name">Last Name</string>
     <string name="hint_mobile_no">Mobile No</string>
     <string name="hint_price_per_can">Price Per Can</string>
+    <string name="title_my_customers">My Customers</string>
 </resources>

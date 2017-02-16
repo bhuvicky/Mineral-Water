@@ -6,7 +6,7 @@ package com.bhuvanesh.mineralwater.model;
 
 public class Profile {
 
-    public long id;
+    public String id;
     public String profilePicUri;
     public String firstName;
     public String lastName;

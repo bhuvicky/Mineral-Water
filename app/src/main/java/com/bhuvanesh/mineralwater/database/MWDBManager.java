@@ -4,6 +4,8 @@ import com.bhuvanesh.mineralwater.exception.MWException;
 import com.bhuvanesh.mineralwater.model.Profile;
 import com.bhuvanesh.mineralwater.profile.dao.ProfileDao;
 
+import java.util.List;
+
 /**
  * Created by Lenovo on 06/02/2017.
  */
@@ -41,9 +43,9 @@ public class MWDBManager {
 
     public void getCustomerProfileList() {
         Dao dao = new ProfileDao();
-        dao.setOnDaoOperationListener(new Dao.OnDaoOperationListener() {
+        dao.setOnDaoOperationListener(new Dao.OnDaoOperationListener<List<Profile>>() {
             @Override
-            public void onDaoOperationSuccess(Object obj) {
+            public void onDaoOperationSuccess(List<Profile> obj) {
                 mOnMWDBManagerListener.onDBManagerSuccess(obj);
             }
 
