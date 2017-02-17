@@ -12,4 +12,7 @@ public interface DBQuery {
             "FirstName varchar, LastName varchar, MobileNo varchar, PricePerCan float, ProfileCreatedTime long);";
     String GET_CUSTOMER_PROFILE = "SELECT * FROM " + TABLE_NAME_PROFILE;
 
+
+    String ALTER_TABLE_PROFILE_VERSION_1 = "ALTER TABLE " + TABLE_NAME_PROFILE + " ADD COLUMN Email varchar";
+
 }

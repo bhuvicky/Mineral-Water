@@ -46,6 +46,7 @@ public class ProfileDao extends Dao {
         values.put(MOBILE_NO, profile.mobileNo);
         values.put(PRICE_PER_CAN, profile.pricePerCan);
         values.put(PROFILE_CREATED_TIME, profile.profileCreatedTime);
+        values.put("Email", "bhuvi@hs.com");
 
         long rowId = new DBManager(MWApplicaiton.getInstance()).replace(DBQuery.TABLE_NAME_PROFILE, values);
         System.out.println("log after insert row id = " + rowId);

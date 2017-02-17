@@ -8,19 +8,22 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.ParcelUuid;
 
+import com.bhuvanesh.mineralwater.util.LoggerUtil;
+
 /**
  * Created by bhuvanesh on 01-02-2017.
  */
 
 public class DBManager implements DBQuery {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 4;
     private static final String DATABASE_NAME = "Mineral Water";
 
     private SQLiteDatabase mSQLiteDatabase;
     private SLDBHelper mSLDBHelper;
 
     public DBManager(Context context) {
+        LoggerUtil.println("log db manager constructor");
         mSLDBHelper = SLDBHelper.getHelper(context);
     }
 
@@ -73,22 +76,32 @@ public class DBManager implements DBQuery {
 
         private SLDBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
             super(context, name, factory, version);
+            LoggerUtil.println("log so, SQLiteOpenHelper constructor get called");
         }
 
         public static synchronized SLDBHelper getHelper(Context context) {
-            if (mSLDBHelper == null)
+            if (mSLDBHelper == null) {
+                LoggerUtil.println("log mSLDBHelper null");
                 mSLDBHelper = new SLDBHelper(context, DATABASE_NAME, null, DATABASE_VERSION);
+            }
+            else
+                LoggerUtil.println("log mSLDBHelper not null, so, SQLiteOpenHelper constructor won't call");
             return mSLDBHelper;
         }
 
         @Override
         public void onCreate(SQLiteDatabase db) {
+            LoggerUtil.println("log mSLDBHelper onCreate called");
             db.execSQL(CREATE_TABLE_PROFILE);
+
+//
+            db.execSQL(ALTER_TABLE_PROFILE_VERSION_1);
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+            LoggerUtil.println("log old v = " + oldVersion + " new ver = " + newVersion);
+                    db.execSQL(ALTER_TABLE_PROFILE_VERSION_1);
         }
     }
 }
