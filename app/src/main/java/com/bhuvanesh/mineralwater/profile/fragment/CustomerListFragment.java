@@ -26,10 +26,17 @@ import java.util.List;
 public class CustomerListFragment extends BaseFragment {
 
     private CustomerListAdapter mCustomerListAdapter;
-    private List<Profile> mProfile = new ArrayList<>();
+    private List<Profile> mProfileList = new ArrayList<>();
+    private long mProfileCreatedTime;
 
     public static CustomerListFragment newInstance() {
-        return new CustomerListFragment();
+        return newInstance(0);
+    }
+
+    public static CustomerListFragment newInstance(long profileCreatedTime) {
+        CustomerListFragment fragment = new CustomerListFragment();
+        fragment.mProfileCreatedTime = profileCreatedTime;
+        return fragment;
     }
 
     @Nullable
@@ -50,7 +57,7 @@ public class CustomerListFragment extends BaseFragment {
         recyclerViewCustomerList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         if (mCustomerListAdapter == null)
-            mCustomerListAdapter = new CustomerListAdapter();
+            mCustomerListAdapter = new CustomerListAdapter(mProfileCreatedTime);
         recyclerViewCustomerList.setAdapter(mCustomerListAdapter);
 
         mCustomerListAdapter.setOnCustomerItemClickListener(new CustomerListAdapter.OnCustomerItemClickListener() {
@@ -58,15 +65,20 @@ public class CustomerListFragment extends BaseFragment {
             public void onProfileClick(Profile profile) {
                 replace(R.id.rlayout_container, ProfileViewFragment.newInstance(profile));
             }
+
+            @Override
+            public void onItemClick(Profile profile) {
+
+            }
         });
 
         MWDBManager manager = new MWDBManager();
         manager.setOnMWDBManagerListener(new MWDBManager.OnMWDBManagerListener<List<Profile>>() {
             @Override
             public void onDBManagerSuccess(List<Profile> obj) {
-                mProfile.clear();
-                mProfile.addAll(obj);
-                mCustomerListAdapter.setData(mProfile);
+                mProfileList.clear();
+                mProfileList.addAll(obj);
+                mCustomerListAdapter.setData(mProfileList);
             }
 
             @Override
@@ -74,7 +86,7 @@ public class CustomerListFragment extends BaseFragment {
 
             }
         });
-        manager.getCustomerProfileList();
+        manager.getCustomerProfileList(mProfileCreatedTime);
 
         return view;
     }

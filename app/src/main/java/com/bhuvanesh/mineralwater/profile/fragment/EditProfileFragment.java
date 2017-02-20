@@ -29,7 +29,9 @@ import com.bhuvanesh.mineralwater.model.Profile;
 import com.bhuvanesh.mineralwater.util.DataUtil;
 import com.bhuvanesh.mineralwater.util.MWPreference;
 import com.bhuvanesh.mineralwater.widget.CircularNetworkImageView;
-;import java.util.UUID;
+;import java.util.GregorianCalendar;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class EditProfileFragment extends RunTimePermissionFragment implements TextWatcher  {
 
@@ -102,15 +104,15 @@ public class EditProfileFragment extends RunTimePermissionFragment implements Te
     }
 
     private void saveIntoDB() {
-        if (mProfile.id == null) {
+        if (mProfile.id == 0) {
             // only unique within a process
-            /*AtomicLong atomicLong = new AtomicLong();
-            mProfile.id = atomicLong.incrementAndGet();*/
+            AtomicLong atomicLong = new AtomicLong();
+            mProfile.id = atomicLong.incrementAndGet();
 
             /*long profileId = MWPreference.getInstance().getProfileId();
             mProfile.id = ++profileId;
             MWPreference.getInstance().setProfileId(mProfile.id);*/
-            mProfile.id = UUID.randomUUID().toString();
+//            mProfile.id = UUID.randomUUID().toString();
             System.out.println("log profile id after gen = " + mProfile.id);
         }
         mProfile.firstName = mEditTextFirstName.getText().toString();
@@ -118,8 +120,14 @@ public class EditProfileFragment extends RunTimePermissionFragment implements Te
         mProfile.mobileNo = mEditTextMobileNo.getText().toString();
         mProfile.pricePerCan = DataUtil.getFloat(mEditTextPrice.getText().toString());
         mProfile.profilePicUri = mImagePath == null ? mProfile.profilePicUri : mImagePath;
-        mProfile.profileCreatedTime = mProfile.profileCreatedTime == 0 ? System.currentTimeMillis() : mProfile.profileCreatedTime;
-
+        if (mProfile.profileCreatedTime == 0) {
+            GregorianCalendar calendar = (GregorianCalendar) GregorianCalendar.getInstance();
+            calendar.set(GregorianCalendar.MILLISECOND, 0);
+            calendar.set(GregorianCalendar.SECOND, 0);
+            calendar.set(GregorianCalendar.MINUTE, 0);
+            calendar.set(GregorianCalendar.HOUR, 0);
+            mProfile.profileCreatedTime = calendar.getTimeInMillis();
+        }
         new MWDBManager().updateProfile(mProfile);
     }
 

@@ -31,9 +31,10 @@ public class MonthViewCalendarAdapter extends BaseAdapter {
         todayCalIns = (GregorianCalendar) GregorianCalendar.getInstance();
         //timestamp consists of date, month, year, hour, min, sec, milliSec; but milliSec won't accurate between diff calendar instance
         //So, set milliseconds to zero
-        todayCalIns.set(GregorianCalendar.MILLISECOND, 0);
+        clearTimeOnCalendarInstance(todayCalIns);
         System.out.println("today = " + todayCalIns.getTimeInMillis());
         cMonth = currentMonth;
+        clearTimeOnCalendarInstance(cMonth);
         pMonth = (GregorianCalendar) cMonth.clone();
         cMonth.set(GregorianCalendar.DAY_OF_MONTH, 1);
     }
@@ -44,7 +45,7 @@ public class MonthViewCalendarAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public DateEvent getItem(int position) {
         return (position < onDateEventList.size() ? onDateEventList.get(position) : null);
     }
 
@@ -124,7 +125,6 @@ public class MonthViewCalendarAdapter extends BaseAdapter {
         for (int i = 0; i < monthLength; i++) {
             DateEvent event = new DateEvent();
             //event.date = String.valueOf(pMonthMaxSet.get(Calendar.DATE));
-            pMonthMaxSet.set(GregorianCalendar.MILLISECOND, 0);
             event.date = pMonthMaxSet.getTimeInMillis();
             System.out.println("date millis = " + pMonthMaxSet.getTimeInMillis());
             onDateEventList.add(event);
@@ -139,5 +139,13 @@ public class MonthViewCalendarAdapter extends BaseAdapter {
             pMonth.set(GregorianCalendar.MONTH, cMonth.get(GregorianCalendar.MONTH) - 1);
 
         return pMonth.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
+    }
+
+    private void clearTimeOnCalendarInstance(GregorianCalendar calendar) {
+//        if we are looking for only date, all these parameters on calendar instance should set as zero.
+        calendar.set(GregorianCalendar.MILLISECOND, 0);
+        calendar.set(GregorianCalendar.SECOND, 0);
+        calendar.set(GregorianCalendar.MINUTE, 0);
+        calendar.set(GregorianCalendar.HOUR, 0);
     }
 }

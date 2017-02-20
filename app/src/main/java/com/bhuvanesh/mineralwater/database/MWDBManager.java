@@ -41,7 +41,7 @@ public class MWDBManager {
         dao.execute(Dao.CUDOperationType.UPDATION, model);
     }
 
-    public void getCustomerProfileList() {
+    public void getCustomerProfileList(long profileCreatedTime) {
         Dao dao = new ProfileDao();
         dao.setOnDaoOperationListener(new Dao.OnDaoOperationListener<List<Profile>>() {
             @Override
@@ -54,6 +54,8 @@ public class MWDBManager {
                 mOnMWDBManagerListener.onDBManagerError(exception);
             }
         });
-        dao.execute(Dao.CUDOperationType.QUERY, new CUDModel());
+        CUDModel model = new CUDModel();
+        model.object = profileCreatedTime;
+        dao.execute(Dao.CUDOperationType.QUERY, model);
     }
 }

@@ -16,7 +16,7 @@ import com.bhuvanesh.mineralwater.util.LoggerUtil;
 
 public class DBManager implements DBQuery {
 
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "Mineral Water";
 
     private SQLiteDatabase mSQLiteDatabase;
@@ -66,6 +66,10 @@ public class DBManager implements DBQuery {
         return rowId;
     }
 
+    public Cursor select(String query) {
+        return select(query, null);
+    }
+
     public Cursor select(String query, String[] selectionArgs) {
         return getDBInstance().rawQuery(query, selectionArgs);
     }
@@ -95,13 +99,13 @@ public class DBManager implements DBQuery {
             db.execSQL(CREATE_TABLE_PROFILE);
 
 //
-            db.execSQL(ALTER_TABLE_PROFILE_VERSION_1);
+            db.execSQL(ALTER_TABLE_PROFILE_VERSION_2);
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             LoggerUtil.println("log old v = " + oldVersion + " new ver = " + newVersion);
-                    db.execSQL(ALTER_TABLE_PROFILE_VERSION_1);
+                    db.execSQL(ALTER_TABLE_PROFILE_VERSION_2);
         }
     }
 }

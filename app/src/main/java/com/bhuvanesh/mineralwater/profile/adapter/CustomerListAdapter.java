@@ -26,13 +26,23 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
 
     public interface OnCustomerItemClickListener {
         void onProfileClick(Profile profile);
+        void onItemClick(Profile profile);
     }
 
-    private List<Profile> mProfileList = new ArrayList<>();
     private OnCustomerItemClickListener mOnCustomerItemClickListener;
 
     public void setOnCustomerItemClickListener(OnCustomerItemClickListener listener) {
         mOnCustomerItemClickListener = listener;
+    }
+
+    private List<Profile> mProfileList = new ArrayList<>();
+    private long mProfileCreatedTime;
+
+    /*check for customer list screen come from calendar or profile
+    * if calendar, profileCreatedTime > 0, ItemClickListener is required
+    * if profile, profileCreatedTime = 0, ItemClickListener is not required*/
+    public CustomerListAdapter (long profileCreatedTime) {
+        mProfileCreatedTime = profileCreatedTime;
     }
 
     public void setData(List<Profile> profile) {
@@ -84,6 +94,14 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
                     mOnCustomerItemClickListener.onProfileClick(mProfileList.get(getAdapterPosition()));
                 }
             });
+
+            if (mProfileCreatedTime > 0)
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mOnCustomerItemClickListener.onItemClick(mProfileList.get(getAdapterPosition()));
+                    }
+                });
         }
     }
 }

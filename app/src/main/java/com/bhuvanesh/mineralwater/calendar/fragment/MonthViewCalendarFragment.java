@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.bhuvanesh.mineralwater.BaseFragment;
 import com.bhuvanesh.mineralwater.R;
 import com.bhuvanesh.mineralwater.calendar.adapter.MonthViewCalendarAdapter;
+import com.bhuvanesh.mineralwater.profile.fragment.CustomerListFragment;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -74,7 +75,7 @@ public class MonthViewCalendarFragment extends BaseFragment {
         gridViewCalendar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                replace(R.id.rlayout_container, CustomerListFragment.newInstance(mMonthViewCalendarAdapter.getItem(position).date));
             }
         });
 
@@ -85,8 +86,8 @@ public class MonthViewCalendarFragment extends BaseFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.findItem(R.id.menu_monthview).setVisible(false);
         inflater.inflate(R.menu.menu_calendar, menu);
+        menu.findItem(R.id.menu_monthview).setVisible(false);
     }
 
     private void setPreviousMonth() {

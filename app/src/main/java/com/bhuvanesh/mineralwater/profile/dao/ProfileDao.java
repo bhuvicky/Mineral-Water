@@ -15,6 +15,7 @@ import com.bhuvanesh.mineralwater.util.LoggerUtil;
 import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Lenovo on 07/02/2017.
@@ -71,14 +72,20 @@ public class ProfileDao extends Dao {
 
     @Override
     protected void query(CUDModel model) {
-        List<Profile> profileList = new ArrayList<>();;
-        Cursor cursor = new DBManager(MWApplicaiton.getInstance()).select(DBQuery.GET_CUSTOMER_PROFILE, null);
+        List<Profile> profileList = new ArrayList<>();
+        long time = (long) model.object;
+        Cursor cursor;
+        if (time == 0)
+            cursor = new DBManager(MWApplicaiton.getInstance()).select(DBQuery.GET_CUSTOMER_PROFILE);
+        else
+            cursor = new DBManager(MWApplicaiton.getInstance()).select(String.format(Locale.getDefault(), DBQuery.GET_PROFILE_ON_DATE, time));
+
         new DBManager(MWApplicaiton.getInstance()).printCursor(cursor);
 
         try {
             while (cursor.moveToNext()) {
                 Profile profile = new Profile();
-                profile.id = cursor.getString(cursor.getColumnIndex(ID));
+                profile.id = cursor.getLong(cursor.getColumnIndex(ID));
                 profile.profilePicUri = cursor.getString(cursor.getColumnIndex(PROFILE_PIC_URI));
                 profile.firstName = cursor.getString(cursor.getColumnIndex(FIRST_NAME));
                 profile.lastName = cursor.getString(cursor.getColumnIndex(LAST_NAME));
