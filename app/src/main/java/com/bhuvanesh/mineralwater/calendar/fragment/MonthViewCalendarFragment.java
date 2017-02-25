@@ -63,7 +63,6 @@ public class MonthViewCalendarFragment extends BaseFragment {
             public void onClick(View v) {
                 setNextMonth();
                 refreshCalendar();
-
             }
         });
 

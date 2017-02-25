@@ -27,15 +27,15 @@ public class CustomerListFragment extends BaseFragment {
 
     private CustomerListAdapter mCustomerListAdapter;
     private List<Profile> mProfileList = new ArrayList<>();
-    private long mProfileCreatedTime;
+    private long mSelectedDate;
 
     public static CustomerListFragment newInstance() {
         return newInstance(0);
     }
 
-    public static CustomerListFragment newInstance(long profileCreatedTime) {
+    public static CustomerListFragment newInstance(long selectedDate) {
         CustomerListFragment fragment = new CustomerListFragment();
-        fragment.mProfileCreatedTime = profileCreatedTime;
+        fragment.mSelectedDate = selectedDate;
         return fragment;
     }
 
@@ -57,7 +57,7 @@ public class CustomerListFragment extends BaseFragment {
         recyclerViewCustomerList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         if (mCustomerListAdapter == null)
-            mCustomerListAdapter = new CustomerListAdapter(mProfileCreatedTime);
+            mCustomerListAdapter = new CustomerListAdapter(mSelectedDate);
         recyclerViewCustomerList.setAdapter(mCustomerListAdapter);
 
         mCustomerListAdapter.setOnCustomerItemClickListener(new CustomerListAdapter.OnCustomerItemClickListener() {
@@ -86,7 +86,7 @@ public class CustomerListFragment extends BaseFragment {
 
             }
         });
-        manager.getCustomerProfileList(mProfileCreatedTime);
+        manager.getCustomerProfileList(mSelectedDate);
 
         return view;
     }

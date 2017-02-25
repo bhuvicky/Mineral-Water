@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -38,7 +39,7 @@ public class EditProfileFragment extends RunTimePermissionFragment implements Te
     public static final int READ_EXTERNAL_STOREAGE_PERMISSION_CODE = 1;
     public static final int PICK_GALLERY_IMAGE_REQUEST_CODE = 100;
 
-    private EditText mEditTextFirstName, mEditTextLastName, mEditTextMobileNo, mEditTextPrice;
+    private TextInputEditText mEditTextFirstName, mEditTextLastName, mEditTextMobileNo, mEditTextPrice;
     private TextInputLayout mTextInputFirstName, mTextInputLastName, mTextInputMobileNo, mTextInputPrice;
 
     private Profile mProfile;
@@ -62,19 +63,19 @@ public class EditProfileFragment extends RunTimePermissionFragment implements Te
         setHasOptionsMenu(true);
         setTitle(R.string.title_edit_profile);
 
-        mEditTextFirstName = (EditText) view.findViewById(R.id.edittext_first_name);
+        mEditTextFirstName = (TextInputEditText) view.findViewById(R.id.edittext_first_name);
         mEditTextFirstName.addTextChangedListener(this);
         mTextInputFirstName = (TextInputLayout) view.findViewById(R.id.textinput_first_name);
 
-        mEditTextLastName = (EditText) view.findViewById(R.id.edittext_last_name);
+        mEditTextLastName = (TextInputEditText) view.findViewById(R.id.edittext_last_name);
         mEditTextLastName.addTextChangedListener(this);
         mTextInputLastName = (TextInputLayout) view.findViewById(R.id.textinput_last_name);
 
-        mEditTextMobileNo = (EditText) view.findViewById(R.id.edittext_mobile_noe);
+        mEditTextMobileNo = (TextInputEditText) view.findViewById(R.id.edittext_mobile_noe);
         mEditTextMobileNo.addTextChangedListener(this);
         mTextInputMobileNo = (TextInputLayout) view.findViewById(R.id.textinput_mobile_no);
 
-        mEditTextPrice = (EditText) view.findViewById(R.id.edittext_price_per_can);
+        mEditTextPrice = (TextInputEditText) view.findViewById(R.id.edittext_price_per_can);
         mEditTextPrice.addTextChangedListener(this);
         mTextInputPrice = (TextInputLayout) view.findViewById(R.id.textinput_price_per_can);
 
@@ -105,13 +106,9 @@ public class EditProfileFragment extends RunTimePermissionFragment implements Te
 
     private void saveIntoDB() {
         if (mProfile.id == 0) {
-            // only unique within a process
-            AtomicLong atomicLong = new AtomicLong();
-            mProfile.id = atomicLong.incrementAndGet();
-
-            /*long profileId = MWPreference.getInstance().getProfileId();
+            long profileId = MWPreference.getInstance().getProfileId();
             mProfile.id = ++profileId;
-            MWPreference.getInstance().setProfileId(mProfile.id);*/
+            MWPreference.getInstance().setProfileId(mProfile.id);
 //            mProfile.id = UUID.randomUUID().toString();
             System.out.println("log profile id after gen = " + mProfile.id);
         }
